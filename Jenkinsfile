@@ -1,9 +1,25 @@
 pipeline {
     agent any
+
     stages {
-        stage('Hello') {
+
+        stage('Checkout') {
             steps {
-                echo 'Hello DevOps from Jenkins'
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Creating zip artifact'
+                sh 'zip -r app.zip .'
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                echo 'Archiving artifact'
+                archiveArtifacts artifacts: 'app.zip'
             }
         }
     }
